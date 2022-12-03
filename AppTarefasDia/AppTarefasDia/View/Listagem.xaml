@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppTarefasDia.View.Listagem"
+             Title="Minhas Tarefas">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="Subtitle" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Clicked="ToolbarItem_Clicked_Add" Text="Adicionar Tarefa"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout Padding="10,5,10,5">
+            <SearchBar 
+                Margin="-10, 0, 0, 0" 
+                x:Name="txt_seach" 
+                Placeholder="Buscar tarefas"
+                TextChanged="txt_seach_TextChanged"/>
+            <RefreshView x:Name="ref_carregando" IsRefreshing="True" Refreshing="ref_carregando_Refreshing">
+                <ListView RowHeight="55" x:Name="lst_tarefas" ItemSelected="lst_tarefas_ItemSelected">
+                    <ListView.Header>
+                        <Grid ColumnDefinitions="5*, 5*" RowDefinitions="Auto">
+                            <Label Grid.Row="0" Grid.Column="0" Text="Tarefa" FontSize="Medium"  FontAttributes="Bold" />
+                            <Label Grid.Row="0" Grid.Column="1" Text="Data de vencimento" FontSize="Medium" FontAttributes="Bold" />
+                        </Grid>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.ContextActions>
+                                    <MenuItem Text="Remover" Clicked="MenuItem_Clicked_Remover"/>
+                                </ViewCell.ContextActions>
+                                <Grid VerticalOptions="CenterAndExpand" ColumnDefinitions="*, *" RowDefinitions="Auto">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Grid" Binding="{Binding Status}" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="#E1EFEB"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                    <Grid Grid.Row="0" Grid.Column="0" RowDefinitions="*, *">
+                                        <Label FontSize="Subtitle" Grid.Row="0" Grid.Column="0" Text="{Binding Titulo}"/>
+                                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding Descricao}"/>
+                                    </Grid>
+                                    <Grid VerticalOptions="Center" Grid.Row="0" Grid.Column="1" ColumnDefinitions="3*, *" RowDefinitions="Auto">
+                                        <Label FontSize="Subtitle" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="0" Text="{Binding Data_Vencimento, StringFormat='{00:dd/MM/yyyy}'}">
+                                            <Label.Style>
+                                                <Style TargetType="Label">
+                                                    <Style.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding Atrasado}" Value="True">
+                                                            <Setter Property="TextColor" Value="#ef233c"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding Atrasado}" Value="False">
+                                                            <Setter Property="TextColor" Value="#0ead69"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Label.Style>
+                                        </Label>
+                                        <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Status, Mode=TwoWay}" CheckedChanged="CheckBox_CheckedChanged" />
+                                    </Grid>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </RefreshView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppTarefasDia.View.Formulario"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             Title="{Binding Source={x:Reference txt_titulo}, Path=Text}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Clicked="ToolbarItem_Clicked" Text="Salvar"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame>
+                <StackLayout>
+                    <Label FontSize="Subtitle" Text="Titulo da tarefa:"/>
+                    <Entry x:Name="txt_titulo" Text="{Binding Titulo}" />
+
+                    <Label FontSize="Subtitle" Text="Descrição da tarefa:"/>
+                    <Entry x:Name="txt_descricao" Text="{Binding Descricao}" />
+
+                    <Label FontSize="Subtitle" Text="Data de vencimento:"/>
+                    <DatePicker 
+                        x:Name="dtpck_data_vencimento" 
+                        MinimumDate="{x:Static system:DateTime.Today}"
+                        Date="{x:Static system:DateTime.Today}" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
